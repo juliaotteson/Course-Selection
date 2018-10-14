@@ -1,0 +1,223 @@
+# Course-Selection
+Project Completed in Introduction to Computer Science
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Scanner;
+import java.util.ArrayList;
+
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Scanner;
+import java.util.ArrayList;
+
+
+
+
+
+public class CourseHistory
+{
+    ArrayList <CompletedCourse> courseList;
+    
+    public CourseHistory() 
+    {
+        courseList = new ArrayList <CompletedCourse>();
+        String department;
+        String courseNumber;
+        String semesterTaken;
+        String credit;
+        String grade;
+        String competency;
+        String distributionArea;
+        
+        try
+        {
+            FileReader reader = new FileReader("finishedcourses.txt");
+            Scanner in = new Scanner(reader);
+            
+            while(in.hasNextLine())
+            {
+                department = in.nextLine();
+                courseNumber = in.nextLine();
+                semesterTaken = in.nextLine();
+                credit = in.nextLine();
+                grade = in.nextLine();
+                competency = in.nextLine();
+                distributionArea = in.nextLine();
+                CompletedCourse theCourse = new CompletedCourse(department, courseNumber, semesterTaken, credit, 
+                grade, competency, distributionArea);
+                courseList.add(theCourse);
+            }
+            in.close(); 
+        }catch(IOException exception)
+        {
+            System.out.println("Error Processing File: " + exception);
+        }
+    }
+    
+    public void displayCourseHistory() 
+    {
+        System.out.println("Course History: "); 
+        for(int i=0;i<courseList.size();i++)
+        {
+            courseList.get(i).displayCourse(); 
+        }
+        System.out.println();
+    }
+    
+    public void displayingSummaryInformation() 
+    {
+        System.out.println("Summary Report: ");
+        int credits = 0;
+        int ct = 0;
+        int grades = 0;
+        int avgGpa = 0;
+        for (int i=0; i < courseList.size();i++)
+        {
+            if (courseList.get(i).getCredit() > 0.5)
+            {
+                credits += courseList.get(i).getCredit(); 
+                ct++; 
+            }
+        }
+        for (int i = 0; i < courseList.size(); i++)
+        {
+            if (courseList.get(i).getCredit() > 0.5 && courseList.get(i).getGrade() >0.0)
+            {
+                grades += courseList.get(i).getGrade();
+            }
+            if (courseList.get(i).getCredit() == 0.5 && courseList.get(i).getGrade() >0.0)
+            {
+                grades += courseList.get(i).getGrade()/2; 
+            }
+        }
+        avgGpa = grades/ct;
+        System.out.println("CREDITS EARNED: " + credits); 
+        System.out.println("AVERAGE GPA: " + avgGpa); 
+    }
+    
+    
+    public void distributionAreaReport(String distArea)
+    { 
+        int credits = 0;
+        System.out.println("Distribution Area Report: " + distArea); 
+        for (int i = 0; i < courseList.size(); i++)
+        {
+            if (courseList.get(i).getDistArea().equals(distArea))
+            {
+                courseList.get(i).displayCourse(); 
+                
+                if(courseList.get(i).getGrade() > 0.0)
+                {
+                    credits += courseList.get(i).getCredit();
+                   
+                }
+            }
+        }
+        System.out.println("CREDITS EARNED: " + credits); 
+        System.out.println(); 
+        System.out.println(); 
+    }
+    
+    public void allDistributionGroupsReport()
+    {  
+        System.out.println("Distribution Groups Report");
+        distributionAreaReport("SM");
+        distributionAreaReport("AH");
+        distributionAreaReport("SS");
+        distributionAreaReport("LA");
+    }
+    
+    public void competencyReport()
+    {
+        int ctQ = 0; 
+        int ctW = 0; 
+        int ctS = 0;
+        for (int i = 0; i <courseList.size(); i++)
+        { 
+            if (courseList.get(i).getCompetency().equals("Q") && courseList.get(i).getGrade() > 0.0)
+            {
+                ctQ ++;
+            }
+            else if (courseList.get(i).getCompetency().equals("W") && courseList.get(i).getGrade() > 0.0)
+            {
+                ctW ++;
+            }
+            else if (courseList.get(i).getCompetency().equals("S") && courseList.get(i).getGrade() > 0.0)
+            {
+                ctS ++;
+            }
+        } 
+        if (ctQ >= 1 && ctW >=1 && ctS >= 1)
+        {
+            System.out.println("All Competencies Completed");
+        }
+        else if (ctQ == 0 && ctW == 0 && ctS == 0)
+        {
+            System.out.println("No competencies completed");
+        }
+        else 
+        {
+            System.out.println("Some competencies completed");
+        }
+       
+        if (ctQ >= 1)
+        {
+            System.out.println("Q = Complete");
+        }
+        else
+        {
+            System.out.println("Q = Not Complete");
+        }
+        if (ctW >= 1)
+        {
+            System.out.println("W = Complete");
+        }
+        else
+        {
+            System.out.println("W = Not Complete");
+        }
+        if (ctS >= 1)
+        {
+            System.out.println("S = Complete");
+        }
+        else
+        {
+            System.out.println("S = Not Complete");
+        }
+    }
+             
+    public void fullReport()
+    {
+        System.out.println("FULL REPORT"); 
+        displayingSummaryInformation(); 
+        allDistributionGroupsReport(); 
+        competencyReport(); 
+    
+    }
+    public void bubbleSort()
+    {
+        ArrayList <CompletedCourse> tempList = new ArrayList <CompletedCourse>();  
+        
+        CompletedCourse temp; 
+        for (int i  = 0; i < courseList.size(); i++)
+        {
+            tempList.add(courseList.get(i)); 
+        }
+        for (int pass = 0; pass < tempList.size() - 1; pass++)
+        {
+            for (int i = 0; i < tempList.size() - 1; i ++)
+            {
+                if (tempList.get(i).getGrade() > tempList.get(i+1).getGrade())
+                {
+                    temp = tempList.get(i); 
+                    tempList.set(i,tempList.get(i+1));
+                    tempList.set(i + 1, temp); 
+                }
+            }
+        }
+        for (int i =0; i < tempList.size(); i ++)
+        {
+            tempList.get(i).displayCourse(); 
+        }
+    }
+}
