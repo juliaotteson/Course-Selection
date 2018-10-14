@@ -1,0 +1,84 @@
+# Course-Selection
+Project Completed in Introduction to Computer Science
+/**
+ * The CompletedCourse class allows information about courses taken by a student to be stored and manipulated.
+ * Each Course has a department, a course number, a semester taken, a number of credits, and a grade. 
+ * Each course also has a competency status field which can be W (writing), Q (quantitatve), S (speaking). 
+ * If the course is not a W, Q, or S course its competency field should be X.  Each course also has a group field
+ * which can be any of the distAreas SS, SM, AH, LA (or NONE if the course does not carry distArea credit).
+ * 
+ * Methods are provided to construct a new course, to print a course, and to access any of the courses 
+ * instance fields.
+ * @author Computer Science Department 
+ * @version November, 2010
+ */
+
+
+public class CompletedCourse
+{   String department;    
+    String courseNumber;  
+    String semesterTaken; 
+    double credit;         
+    double grade;         
+    String competency;    
+    String distArea;      
+    public CompletedCourse(String initDepartment, String initCourseNumber, String  initSemesterTaken, 
+                          String initCredit,  String initGrade, String initCompetency, String initDistArea)
+    {
+       department = initDepartment.toUpperCase();     
+       courseNumber = initCourseNumber;
+       semesterTaken = initSemesterTaken;
+       credit = Double.parseDouble(initCredit);
+        grade = Double.parseDouble(initGrade);         
+       competency = initCompetency.toUpperCase();
+       distArea = initDistArea;               
+    }
+
+    public void displayCourse()
+    {
+      System.out.println("******************************************");
+      System.out.println("Course: " + semesterTaken + " ==> " + department + courseNumber);
+      
+      System.out.println ("Credit attempted: " + credit);
+      System.out.println ("Grade: " + grade);
+
+      if ( competency.equals("X") || competency.equals("x"))
+         System.out.println ("Competency: NONE");
+      else
+         System.out.println ("Competency: " + competency);
+     
+      if (! distArea.equals("NONE"))   
+         System.out.println ("Distribution Area: " + distArea);
+      else
+         System.out.println ("Distribution Area: NONE");
+    }
+    
+    public String getDepartment()
+    {  return department;
+    }
+    public String getCourseNumber()
+    {  return courseNumber;
+    }
+    
+    public String getSemesterTaken()
+    {  return semesterTaken;
+    }
+   
+    public String getCompetency()
+    {  return competency;
+    }
+    
+    public double getCredit()
+    {  return credit;
+    }
+   
+    public double getGrade()
+    {  return grade;
+    }
+    
+    public String getDistArea()
+    {  return distArea;
+    }
+}
+
+ 
